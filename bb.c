@@ -5,6 +5,8 @@
  *      Author: kshitij
  */
 
+/* ALL REGISTER VALUES FOR 10 MHZ */
+
 #include "bb.h"
 //#include "spi.h"
 
@@ -40,8 +42,9 @@ void bitbang_write(unsigned char data)
    for(i=0; i<8; i++)
 {
 
+	   data=data<<1;
 
-    if(data & 0x80) 		//data is the 8 bit register
+	   if(data & 0x80) 		//data is the 8 bit register
  { BITBANG_SDATA_PxOUT |= BITBANG_SDATA_BIT; }
     else
  { BITBANG_SDATA_PxOUT &= ~BITBANG_SDATA_BIT; }
@@ -50,7 +53,7 @@ void bitbang_write(unsigned char data)
    __delay_cycles(100);
     BITBANG_SCLK_PxOUT &= ~BITBANG_SCLK_BIT;
     __delay_cycles(100);
-    data=data<<1;
+
 }
 }
 
@@ -103,18 +106,17 @@ long bitbang_read(unsigned char bitsize)
 void send_char(unsigned char ch)
 {
 	unsigned char temp,i;
-	temp = ch;
 
 	for(i=0; i<8; i++)
   {
 	while(TXRXCLK_PxIN & TXRXCLK_BIT);
-
+		temp = temp<<1;
 		__delay_cycles(1);
 		if (temp & 0x80)
 		{ TXRXDATA_PxOUT |= TXRXDATA_BIT; }
 		else
 		{ TXRXDATA_PxOUT &= ~TXRXDATA_BIT; }
-	temp = temp<<1;
+
 
 	while(!(TXRXCLK_PxIN & TXRXCLK_BIT));
 
@@ -123,10 +125,10 @@ void send_char(unsigned char ch)
 
 void regwrite0()
 {
-    bitbang_write(0x00);
-    bitbang_write(0xF4);
-    bitbang_write(0x74);
-    bitbang_write(0xA0);
+	 bitbang_write(0x00);			//bitbang_write(0x00);
+	 bitbang_write(0xE9);			//bitbang_write(0xF4);
+	 bitbang_write(0x2C);			//bitbang_write(0x74);
+	 bitbang_write(0x50); 			//bitbang_write(0xA0);
     BITBANG_SLE_PxOUT |= BITBANG_SLE_BIT;
                    __delay_cycles(10);
     BITBANG_SLE_PxOUT &= ~BITBANG_SLE_BIT;
@@ -135,10 +137,10 @@ void regwrite0()
 
 void regwrite1()
 {
-    bitbang_write(0x02);
-    bitbang_write(0x1F);
-    bitbang_write(0xD0);
-    bitbang_write(0x21);
+	 bitbang_write(0x02);			//bitbang_write(0x02);
+	 bitbang_write(0x1F);			//bitbang_write(0x1F);
+	 bitbang_write(0xD0);			//bitbang_write(0xD0);
+	 bitbang_write(0x11);			//bitbang_write(0x21);
     BITBANG_SLE_PxOUT |= BITBANG_SLE_BIT;
                    __delay_cycles(10);
     BITBANG_SLE_PxOUT &= ~BITBANG_SLE_BIT;
@@ -161,10 +163,10 @@ void regwrite2()
 
 void regwrite3()
 {
-    bitbang_write(0x36);
-    bitbang_write(0xF8);
-    bitbang_write(0x8D);
-    bitbang_write(0xE3);
+	bitbang_write(0x35);				//bitbang_write(0x36);
+    bitbang_write(0x90);				//bitbang_write(0xF8);
+    bitbang_write(0x81);				//bitbang_write(0x8D);
+    bitbang_write(0x13);				//bitbang_write(0xE3);
     BITBANG_SLE_PxOUT |= BITBANG_SLE_BIT;
                    __delay_cycles(10);
     BITBANG_SLE_PxOUT &= ~BITBANG_SLE_BIT;
@@ -174,8 +176,8 @@ void regwrite3()
 void regwrite4()
 {
     bitbang_write(0x00);
-    bitbang_write(0x59);
-    bitbang_write(0x26);
+    bitbang_write(0x58);			// bitbang_write(0x59);
+    bitbang_write(0x02);			// bitbang_write(0x26);
     bitbang_write(0x14);
     BITBANG_SLE_PxOUT |= BITBANG_SLE_BIT;
                    __delay_cycles(10);
@@ -187,8 +189,10 @@ void regwrite5()
 {
     bitbang_write(0x00);
     bitbang_write(0x00);
-    bitbang_write(0x2F);
-    bitbang_write(0xB5);
+    bitbang_write(0x19);
+    bitbang_write(0x15);
+        									//bitbang_write(0x2F);
+    										//bitbang_write(0xB5); 	11.059
    BITBANG_SLE_PxOUT |= BITBANG_SLE_BIT;
                    __delay_cycles(10);
     BITBANG_SLE_PxOUT &= ~BITBANG_SLE_BIT;
@@ -197,11 +201,15 @@ void regwrite5()
 }
 void regwrite6()
 {
-    bitbang_write(0x0A);
-    bitbang_write(0x0A);
-    bitbang_write(0x4F);
-    bitbang_write(0x46);
-    BITBANG_SLE_PxOUT |= BITBANG_SLE_BIT;
+	    bitbang_write(0x0A);
+	    bitbang_write(0x05);
+	    bitbang_write(0x68);
+	    bitbang_write(0x06);
+	    										//   bitbang_write(0x0A);
+	    										//   bitbang_write(0x0A);
+	    										//   bitbang_write(0x4F);    VALUES FOR 11.059Mhz
+	    										//   bitbang_write(0x46);
+   BITBANG_SLE_PxOUT |= BITBANG_SLE_BIT;
                    __delay_cycles(10);
     BITBANG_SLE_PxOUT &= ~BITBANG_SLE_BIT;
                    __delay_cycles(10);
@@ -239,7 +247,7 @@ void regwrite10()
     bitbang_write(0x32);
     bitbang_write(0x96);
     bitbang_write(0x35);
-    bitbang_write(0x4B);
+    bitbang_write(0x4A);
     BITBANG_SLE_PxOUT |= BITBANG_SLE_BIT;
                    __delay_cycles(10);
     BITBANG_SLE_PxOUT &= ~BITBANG_SLE_BIT;

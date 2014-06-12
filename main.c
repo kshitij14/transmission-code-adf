@@ -11,12 +11,13 @@ subject: different readbacks
 
 
 #include "bb.h"
-//#include "spi.h"
 
-unsigned long readback;                //*change1
+
+unsigned long readback;
 
 int main()
-{
+{ 
+
 
     WDTCTL = WDTPW | WDTHOLD;	// Stop watchdog timer
 

@@ -103,6 +103,7 @@ long bitbang_read(unsigned char bitsize)
 void send_char(unsigned char ch)
 {
 	unsigned char temp,i;
+	temp = ch;
 
 	for(i=0; i<8; i++)
   {

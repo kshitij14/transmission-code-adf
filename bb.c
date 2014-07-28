@@ -42,7 +42,7 @@ void bitbang_write(unsigned char data)
    for(i=0; i<8; i++)
 {
 
-	   data=data<<1;
+	   data=data<<1;                //should be done in the end technically, note
 
 	   if(data & 0x80) 		//data is the 8 bit register
  { BITBANG_SDATA_PxOUT |= BITBANG_SDATA_BIT; }
@@ -110,7 +110,7 @@ void send_char(unsigned char ch)
 	for(i=0; i<8; i++)
   {
 	while(TXRXCLK_PxIN & TXRXCLK_BIT);
-		temp = temp<<1;
+		temp = temp<<1;                              //should be done in the end technically, note
 		__delay_cycles(1);
 		if (temp & 0x80)
 		{ TXRXDATA_PxOUT |= TXRXDATA_BIT; }

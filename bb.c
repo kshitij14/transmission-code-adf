@@ -105,14 +105,14 @@ long bitbang_read(unsigned char bitsize)
 
 void send_char(unsigned char ch)
 {
-	unsigned char temp,i;
+	unsigned char e;
 
-	for(i=0; i<8; i++)
+	for(e=0; e<8; e++)
   {
 	while(TXRXCLK_PxIN & TXRXCLK_BIT);
-		temp = temp<<1;                              //should be done in the end technically, note
+		ch = ch<<1;                              //should be done in the end technically, note
 		__delay_cycles(1);
-		if (temp & 0x80)
+		if (ch & 0x80)
 		{ TXRXDATA_PxOUT |= TXRXDATA_BIT; }
 		else
 		{ TXRXDATA_PxOUT &= ~TXRXDATA_BIT; }
